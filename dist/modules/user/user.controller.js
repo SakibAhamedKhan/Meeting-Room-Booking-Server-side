@@ -12,21 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./config"));
-const DB_1 = __importDefault(require("./DB"));
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(config_1.default.db_url);
-            (0, DB_1.default)();
-            app_1.default.listen(config_1.default.port, () => {
-                console.log(`Example app listening on port ${config_1.default.port}`);
-            });
-        }
-        catch (error) {
-        }
+exports.UserController = void 0;
+const user_service_1 = require("./user.service");
+const catchAsync_1 = require("../../utils/catchAsync");
+const user_constant_1 = require("./user.constant");
+const http_status_codes_1 = __importDefault(require("http-status-codes"));
+const register = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = req.body;
+    userData.role = user_constant_1.USER_ROLE.USER;
+    const result = yield user_service_1.UserService.register(userData);
+    res.status(http_status_codes_1.default.ACCEPTED).json({
+        success: true,
+        message: "Registration completed successfully",
+        data: result,
     });
-}
-main();
+}));
+exports.UserController = {
+    register,
+};

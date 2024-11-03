@@ -8,3 +8,8 @@ export type TUserSchema = {
   address: string;
   role: keyof typeof USER_ROLE;
 };
+
+export type TUserLogin = {
+  email: string,
+  password: string, 
+}
