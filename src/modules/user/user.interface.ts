@@ -13,3 +13,5 @@ export type TUserLogin = {
   email: string,
   password: string, 
 }
+
+export type TUserRoles = keyof typeof USER_ROLE;

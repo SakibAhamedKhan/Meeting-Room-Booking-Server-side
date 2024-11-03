@@ -25,9 +25,11 @@
     "typescript-eslint": "^8.12.2"
   },
   "dependencies": {
+    "@types/http-status": "^0.2.30",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "http-status": "^2.0.0",
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.0",
