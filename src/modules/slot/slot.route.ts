@@ -12,5 +12,10 @@ router.post(
     SlotController.createSlot
 );
 
+router.get(
+    "/availability",
+    auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+    SlotController.getAvaliableSlots
+)
 
 export const SlotRoutes = router;

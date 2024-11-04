@@ -13,13 +13,11 @@ const createSlot = catchAsync(
 
     let slot = (endTimeInMinutes - startTimeInMintues) / 60;
 
-    let allTime = [];
     let data = [];
-    for(let i=1; i<=slot; i++){
-      const startTime =  timeRelated.minutesToTime(startTimeInMintues);
-      const endTime = timeRelated.minutesToTime(startTimeInMintues+60);
-      startTimeInMintues+=60;
-      allTime.push({startTime, endTime});
+    for (let i = 1; i <= slot; i++) {
+      const startTime = timeRelated.minutesToTime(startTimeInMintues);
+      const endTime = timeRelated.minutesToTime(startTimeInMintues + 60);
+      startTimeInMintues += 60;
       let newData = slotData;
       newData.startTime = startTime;
       newData.endTime = endTime;
@@ -36,7 +34,20 @@ const createSlot = catchAsync(
   }
 );
 
+const getAvaliableSlots = catchAsync(
+  async(req:Request, res:Response, next:NextFunction) => {
+    const result = await SlotService.getAvaliableSlots(req.query);
+    
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Available slots retrieved successfully",
+      data: result,
+    })
+  }
+)
 
 export const SlotController = {
-    createSlot,
-}
+  createSlot,
+  getAvaliableSlots,
+};
