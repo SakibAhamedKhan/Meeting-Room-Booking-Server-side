@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express from "express";
 import validateZodRequest from "../../middleware/validateZodRequest";
 import { zodRoomSchema } from "./room.validation";
 import { RoomController } from "./room.controller";
