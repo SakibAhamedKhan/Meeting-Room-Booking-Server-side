@@ -14,4 +14,29 @@ router.post(
   RoomController.createRoom
 );
 
+router.get(
+  "/:roomId",
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  RoomController.getSingleRoom
+);
+
+router.put(
+  "/:roomId",
+  auth(USER_ROLE.ADMIN),
+  validateZodRequest(zodRoomSchema.roomUpdateZodSchema),
+  RoomController.updateSingleRoom
+);
+
+router.delete(
+  "/:roomId",
+  auth(USER_ROLE.ADMIN),
+  RoomController.deleteSingleRoom
+);
+
+router.get(
+  "/",
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  RoomController.getAllRoom
+);
+
 export const RoomRoutes = router;
