@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { QueryBuilder } from "../../builder/QueryBuilder";
 import { TSlotSchema } from "./slot.interface";
 import { Slot } from "./slot.model";
@@ -20,7 +21,17 @@ const getAvaliableSlots = async (payload: Record<string, unknown>) => {
 
   return result;
 };
+
+const updateSlotsBooked =async (id:ObjectId[],payload:boolean) => {
+  const result = await Slot.updateMany(
+    {_id: {$in: id}},
+    {$set: {isBooked:payload}},
+    {multi: true}
+  )
+  return result;
+}
 export const SlotService = {
   createSlot,
   getAvaliableSlots,
+  updateSlotsBooked,
 };

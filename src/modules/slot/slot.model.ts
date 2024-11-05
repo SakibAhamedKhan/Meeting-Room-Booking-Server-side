@@ -4,7 +4,7 @@ import { TSlotSchema } from "./slot.interface";
 const slotSchema = new Schema<TSlotSchema>({
   room: {
     type: Schema.Types.ObjectId,
-    required: [true, "Room id is required"],
+    require: [true, "Room id is required"],
     ref: "Room",
   },
   date: {
