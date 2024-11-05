@@ -23,6 +23,7 @@ const getAvaliableSlots = async (payload: Record<string, unknown>) => {
 };
 
 const updateSlotsBooked =async (id:ObjectId[],payload:boolean) => {
+  console.log("26: ", payload);
   const result = await Slot.updateMany(
     {_id: {$in: id}},
     {$set: {isBooked:payload}},
