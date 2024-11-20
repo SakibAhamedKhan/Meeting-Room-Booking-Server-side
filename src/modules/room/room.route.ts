@@ -1,16 +1,25 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import validateZodRequest from "../../middleware/validateZodRequest";
 import { zodRoomSchema } from "./room.validation";
 import { RoomController } from "./room.controller";
 import auth from "../../middleware/auth";
 import { USER_ROLE } from "../user/user.constant";
+import { upload } from "../../utils/sendImageToCloudinary";
 
 const router = express.Router();
 
 router.post(
   "/",
   auth(USER_ROLE.ADMIN),
-  validateZodRequest(zodRoomSchema.roomZodSchema),
+  // validateZodRequest(zodRoomSchema.roomZodSchema),
+  upload.fields([
+    { name: 'extraImages', maxCount: 10 },  
+    { name: 'thumbnail', maxCount: 1 }     
+  ]),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
   RoomController.createRoom
 );
 
