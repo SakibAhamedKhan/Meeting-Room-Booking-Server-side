@@ -10,37 +10,30 @@ const createRoom = async (
   extraImages?: Express.Multer.File[],
   thumbnail?: Express.Multer.File[]
 ) => {
-  console.log("8 => ", payload);
-  console.log("9 => ", extraImages);
-  console.log("10 => ", thumbnail);
-
   const session = await mongoose.startSession();
-
+  let result;
   try {
     session.startTransaction();
     if (extraImages) {
       const extraImages_secure_url = await sendImagesToCloudinary(extraImages);
-      console.log(extraImages_secure_url);
       payload.extraImages = extraImages_secure_url;
     }
     if (thumbnail) {
       const thumbnail_secure_url = await sendImagesToCloudinary(thumbnail);
-      console.log(thumbnail_secure_url);
       payload.thumbnail = thumbnail_secure_url;
     }
 
-    const result = await Room.create([payload], {session});
+    result = await Room.create([payload], { session });
 
     await session.commitTransaction();
     await session.endSession();
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(500,"Something wrong in createRoom", error);
+    throw new AppError(500, "Something wrong in createRoom", error);
   }
 
-  
-  return "result";
+  return result;
 };
 
 const getSingleRoom = async (payload: string) => {

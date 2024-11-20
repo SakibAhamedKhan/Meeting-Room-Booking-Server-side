@@ -16,7 +16,7 @@ const createRoom = catchAsync(
       success: true,
       statusCode: 200,
       message: "Room added successfully",
-      data: "result",
+      data: result,
     });
   }
 );
