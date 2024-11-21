@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   validateZodRequest(zodBookingSchema.bookingZodSchema),
   BookingController.createBooking
 );
@@ -19,7 +19,7 @@ router.get("/",
   BookingController.getAllBooking);
 
 router.get("/my-bookings",
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   BookingController.getMyBooking);
 
 router.put("/:id",

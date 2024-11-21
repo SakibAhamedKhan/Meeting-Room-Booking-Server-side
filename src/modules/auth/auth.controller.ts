@@ -24,13 +24,13 @@ const signup = catchAsync(
 const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userData = req.body;
-    const {accessToken, refreshToken} = await AuthService.login(userData);
+    const { accessToken, refreshToken } = await AuthService.login(userData);
 
-    res.cookie("refreshToken",refreshToken, {
-      httpOnly: true, 
-      secure: config.node_env==="production",
-    })
-    
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: config.node_env === "production",
+    });
+
     res.status(200).json({
       success: true,
       statusCode: 200,
@@ -42,7 +42,22 @@ const login = catchAsync(
   }
 );
 
+const refreshToken = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken } = req.cookies;
+    const result = await AuthService.refreshToken(refreshToken);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: 'Access token is retrieved successfully!',
+      data: result,
+    });
+  }
+);
+
 export const AuthController = {
   signup,
   login,
+  refreshToken,
 };

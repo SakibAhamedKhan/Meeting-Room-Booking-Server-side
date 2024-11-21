@@ -14,7 +14,7 @@ router.post(
 
 router.get(
     "/availability",
-    auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+    auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
     SlotController.getAvaliableSlots
 )
 

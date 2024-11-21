@@ -1,10 +1,10 @@
 import { model, Schema } from "mongoose";
-import { USER_ROLE } from "./user.constant";
-import { TUserSchema } from "./user.interface";
+import { USER_ROLE, UserStatus } from "./user.constant";
+import { TUserSchema, UserModel } from "./user.interface";
 import bcryptjs from "bcryptjs";
 import config from "../../config";
 
-const userSchema = new Schema<TUserSchema>({
+const userSchema = new Schema<TUserSchema, UserModel>({
   name: {
     type: String,
     required: [true, "Name is required"],
@@ -31,6 +31,11 @@ const userSchema = new Schema<TUserSchema>({
     require: [true, "Role is required"],
     enum: Object.keys(USER_ROLE),
   },
+  status: {
+    type: String,
+    enum: UserStatus,
+    default: 'in-progress',
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -49,4 +54,8 @@ userSchema.set("toJSON", {
   },
 });
 
-export const User = model<TUserSchema>("User", userSchema);
+userSchema.statics.isUserExistsByCustomEmail = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
+};
+
+export const User = model<TUserSchema, UserModel>("User", userSchema);

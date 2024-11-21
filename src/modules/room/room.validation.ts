@@ -6,6 +6,8 @@ const roomZodSchema = z.object({
   floorNo: z.number(),
   capacity: z.number(),
   pricePerSlot: z.number(),
+  address: z.string(),
+  googleMapURL: z.string(),
   amenities: z.array(z.string()),
   isDeleted: z.boolean().default(false),
 });
@@ -15,6 +17,8 @@ const roomUpdateZodSchema = z.object({
   floorNo: z.number().optional(),
   capacity: z.number().optional(),
   pricePerSlot: z.number().optional(),
+  address: z.string(),
+  googleMapURL: z.string(),
   amenities: z.array(z.string()).optional(),
   isDeleted: z.boolean().default(false).optional(),
 });

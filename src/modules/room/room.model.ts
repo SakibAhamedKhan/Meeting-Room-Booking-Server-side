@@ -19,6 +19,24 @@ const roomSchema = new Schema<TRoomSchema>({
     type: Number,
     require: [true, "Capacity No is required"],
   },
+  totalRatings: {
+    type: Number,
+    require: [true, "Capacity No is required"],
+    default: 0,
+  },
+  totalReviews: {
+    type: Number,
+    require: [true, "Capacity No is required"],
+    default: 0,
+  },
+  address: {
+    type: String,
+    required: [true, "Address is required"],
+  },
+  googleMapURL: {
+    type: String,
+    required: [true, "GoogleMapURL is required"],
+  },
   pricePerSlot: {
     type: Number,
     require: [true, "PricePerSlot No is required"],

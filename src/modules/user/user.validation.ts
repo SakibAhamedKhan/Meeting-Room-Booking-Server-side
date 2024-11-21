@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { USER_ROLE } from "./user.constant";
+import { USER_ROLE, UserStatus } from "./user.constant";
 
 const signupZodSchema = z.object({
   name: z.string(),
@@ -7,7 +7,8 @@ const signupZodSchema = z.object({
   password: z.string(),
   phone: z.string(),
   address: z.string(),
-  role: z.nativeEnum(USER_ROLE).default(USER_ROLE.USER),
+  role: z.nativeEnum(USER_ROLE).default(USER_ROLE.CUSTOMER),
+  status: z.enum(UserStatus).default('in-progress'),
 });
 
 const loginZod = z.object({

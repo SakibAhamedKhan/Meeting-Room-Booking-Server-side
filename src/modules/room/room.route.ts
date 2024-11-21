@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  auth(USER_ROLE.ADMIN),
+  // auth(USER_ROLE.ADMIN),
   // validateZodRequest(zodRoomSchema.roomZodSchema),
   upload.fields([
     { name: 'extraImages', maxCount: 10 },  
@@ -25,7 +25,7 @@ router.post(
 
 router.get(
   "/:roomId",
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   RoomController.getSingleRoom
 );
 
@@ -44,7 +44,7 @@ router.delete(
 
 router.get(
   "/",
-  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   RoomController.getAllRoom
 );
 
