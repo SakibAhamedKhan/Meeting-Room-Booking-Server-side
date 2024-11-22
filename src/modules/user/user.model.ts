@@ -54,8 +54,8 @@ userSchema.set("toJSON", {
   },
 });
 
-userSchema.statics.isUserExistsByCustomEmail = async function (email: string) {
-  return await User.findOne({ email }).select('+password');
+userSchema.statics.isUserExistsByCustomUserId = async function (id: string) {
+  return await User.findOne({ id }).select('+password');
 };
 
 export const User = model<TUserSchema, UserModel>("User", userSchema);

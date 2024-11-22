@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { NextFunction, Request, Response, Router } from "express";
 import { zodUserSchema } from "../user/user.validation";
 import validateZodRequest from "../../middleware/validateZodRequest";
 import { AuthController } from "./auth.controller";
@@ -18,9 +18,13 @@ router.post(
     AuthController.login
 )
 
-router.post(
+router.get(
   '/refresh-token',
   // validateZodRequest(AuthValidation.refreshTokenValidationSchema),
+  // (req:Request, res:Response, next:NextFunction)=>{
+  //   console.log(req.cookies)
+  //   next();
+  // },
   AuthController.refreshToken,
 );
 

@@ -2,6 +2,7 @@ import { Model } from "mongoose";
 import { USER_ROLE } from "./user.constant";
 
 export type TUserSchema = {
+  userId?:string
   name: string;
   email: string;
   password: string;
@@ -17,7 +18,7 @@ export type TUserLogin = {
 }
 
 export type UserModel = Model<TUserSchema> & {
-  isUserExistsByCustomEmail(email: string): Promise<TUserSchema>;
+  isUserExistsByCustomUserId(userId: string): Promise<TUserSchema>;
 
   isPasswordMatched(plainTextPassword: string, hashedPassword: string): Promise<boolean>;
 

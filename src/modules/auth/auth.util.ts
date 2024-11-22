@@ -15,7 +15,7 @@ export const verifyToken = (token: string, secret: string) => {
 };
 
 export const createToken = (
-  jwtPayload: { email: string; role:"ADMIN" | "CUSTOMER" | "PARTNER" | "SUBADMIN" },
+  jwtPayload: { userId: string | undefined ; role:"ADMIN" | "CUSTOMER" | "PARTNER" | "SUBADMIN" },
   secret: string,
   expiresIn: string,
 ) => {

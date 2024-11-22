@@ -8,7 +8,7 @@ import config from "../../config";
 const signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userData = req.body;
-    userData.role = USER_ROLE.USER;
+    userData.role = USER_ROLE.CUSTOMER;
 
     const result = await AuthService.signup(userData);
 
@@ -46,7 +46,6 @@ const refreshToken = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { refreshToken } = req.cookies;
     const result = await AuthService.refreshToken(refreshToken);
-
     res.status(200).json({
       success: true,
       statusCode: 200,

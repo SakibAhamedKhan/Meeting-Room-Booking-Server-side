@@ -22,11 +22,11 @@ const login = async (payload: TUserLogin): Promise<any> => {
     user.password
   );
   if (!passwordMatched) {
-    throw new AppError(401, "Invalid password. Please try again.");
+    throw new AppError(404, "Invalid password. Please try again.");
   }
 
   const jwtPayload = {
-    email: user.email,
+    userId: user._id,
     role: user.role,
   };
 
@@ -51,9 +51,9 @@ const login = async (payload: TUserLogin): Promise<any> => {
 const refreshToken = async (token: string) => {
   const decoded = verifyToken(token, config.jwt_refresh_secret as string);
 
-  const { email, iat } = decoded;
+  const { userId, iat } = decoded;
 
-  const user = await User.isUserExistsByCustomEmail(email);
+  const user = await User.isUserExistsByCustomUserId(userId);
 
   if (!user) {
     throw new AppError(404, "This user is not found !");
@@ -66,7 +66,7 @@ const refreshToken = async (token: string) => {
   }
 
   const jwtPayload = {
-    email: user.email,
+    userId: user.userId,
     role: user.role,
   };
 
@@ -75,7 +75,9 @@ const refreshToken = async (token: string) => {
     config.jwt_access_secret as string,
     config.jwt_access_expries as string
   );
-  
+  return {
+    accessToken,
+  };
 };
 
 export const AuthService = {
