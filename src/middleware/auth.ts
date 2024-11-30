@@ -22,13 +22,12 @@ const auth = (...requiredRoles: TUserRoles[]) => {
     ) as JwtPayload;
 
     console.log(decoded);
-    const { role, email, iat } = decoded;
+    const { role, userId, iat } = decoded;
 
     // checking if the user is exist
-    const user = await User.findOne({ email: email });
-
+    const user = await User.findOne({ _id:userId  });
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "This use is not found");
+      throw new AppError(httpStatus.NOT_FOUND, "This user is not found");
     }
 
     if (!requiredRoles.includes(role)) {

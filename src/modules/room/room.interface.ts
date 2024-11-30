@@ -7,6 +7,7 @@ export type TRoomSchema = {
   totalRatings: number;
   totalReviews: number;
   address: string;
+  description: string;
   googleMapURL: string;
   thumbnail: {
     url: string;

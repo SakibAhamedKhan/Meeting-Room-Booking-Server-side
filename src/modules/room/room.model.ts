@@ -33,6 +33,10 @@ const roomSchema = new Schema<TRoomSchema>({
     type: String,
     required: [true, "Address is required"],
   },
+  description: {
+    type: String,
+    required: [true, "Description is required"],
+  },
   googleMapURL: {
     type: String,
     required: [true, "GoogleMapURL is required"],
