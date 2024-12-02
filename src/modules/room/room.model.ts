@@ -70,7 +70,14 @@ const roomSchema = new Schema<TRoomSchema>({
   },
   isDeleted: {
     type: Boolean,
-    require: [true, "isDeleted is required"],
+    default: false,
+  },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
+  isBanned: {
+    type: Boolean,
     default: false,
   },
 });

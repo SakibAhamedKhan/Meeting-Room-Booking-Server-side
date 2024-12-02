@@ -19,6 +19,8 @@ export type TRoomSchema = {
   }[];
   amenities: [string];
   isDeleted: boolean;
+  isApproved: boolean;
+  isBanned: boolean;
 };
 
 export type MulterFileFields = {

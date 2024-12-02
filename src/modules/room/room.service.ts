@@ -22,7 +22,6 @@ const createRoom = async (
       const thumbnail_secure_url = await sendImagesToCloudinary(thumbnail);
       payload.thumbnail = thumbnail_secure_url;
     }
-
     result = await Room.create([payload], { session });
 
     await session.commitTransaction();

@@ -10,8 +10,8 @@ const router = express.Router();
 
 router.post(
   "/",
-  // auth(USER_ROLE.ADMIN),
-  // validateZodRequest(zodRoomSchema.roomZodSchema),
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  
   upload.fields([
     { name: 'extraImages', maxCount: 10 },  
     { name: 'thumbnail', maxCount: 1 }     
@@ -20,12 +20,13 @@ router.post(
     req.body = JSON.parse(req.body.data);
     next();
   },
+  validateZodRequest(zodRoomSchema.roomZodSchema),
   RoomController.createRoom
 );
 
 router.get(
   "/:roomId",
-  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
+  // auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   RoomController.getSingleRoom
 );
 
@@ -44,7 +45,7 @@ router.delete(
 
 router.get(
   "/",
-  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
+  // auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   RoomController.getAllRoom
 );
 
