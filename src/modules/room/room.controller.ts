@@ -4,7 +4,6 @@ import { RoomService } from "./room.service";
 import { MulterFileFields } from "./room.interface";
 import { getUser } from "../../utils/getUser";
 
-
 const createRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const roomData = req.body;
@@ -12,13 +11,17 @@ const createRoom = catchAsync(
     const extraImages = files.extraImages;
     const thumbnail = files.thumbnail;
 
-    console.log(extraImages)
-    console.log(thumbnail)
+    console.log(extraImages);
+    console.log(thumbnail);
     const user = await getUser(req);
 
+    const result = await RoomService.createRoom(
+      roomData,
+      extraImages,
+      thumbnail,
+      user
+    );
 
-    const result = await RoomService.createRoom(roomData, extraImages, thumbnail, user);
-    
     res.status(200).json({
       success: true,
       statusCode: 200,
@@ -84,10 +87,25 @@ const getAllRoom = catchAsync(
   }
 );
 
+const getAllRoomOperation = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    const result = await RoomService.getAllRoomOperation(user);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room retrieved successfully",
+      data: result,
+    });
+  }
+);
+
 export const RoomController = {
   createRoom,
   getSingleRoom,
   getAllRoom,
   updateSingleRoom,
   deleteSingleRoom,
+  getAllRoomOperation,
 };

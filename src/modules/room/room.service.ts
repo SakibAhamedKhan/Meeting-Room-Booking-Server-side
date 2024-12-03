@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { sendImagesToCloudinary } from "../../utils/sendImageToCloudinary";
 import AppError from "../../errors/AppError";
 import { TUserSchema } from "../user/user.interface";
+import { USER_ROLE } from "../user/user.constant";
 
 const createRoom = async (
   payload: TRoomSchema,
@@ -55,7 +56,23 @@ const deleteSingleRoom = async (payload: string) => {
 };
 
 const getAllRoom = async () => {
+
   const result = await Room.find();
+ 
+  return result;
+};
+
+const getAllRoomOperation = async (user:any) => {
+  
+  let result;
+  if(user.role===USER_ROLE.ADMIN){
+    result = await Room.find();
+  }
+  if(user.role===USER_ROLE.PARTNER){
+    result = await Room.find({owner:user._id});
+  }
+  
+ 
   return result;
 };
 
@@ -65,4 +82,5 @@ export const RoomService = {
   updateSingleRoom,
   getAllRoom,
   deleteSingleRoom,
+  getAllRoomOperation
 };

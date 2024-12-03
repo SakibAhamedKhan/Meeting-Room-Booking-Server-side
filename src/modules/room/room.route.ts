@@ -46,8 +46,13 @@ router.delete(
 
 router.get(
   "/",
-  // auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   RoomController.getAllRoom
+);
+
+router.get(
+  "/checking/operations",
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  RoomController.getAllRoomOperation
 );
 
 export const RoomRoutes = router;
