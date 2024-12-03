@@ -21,7 +21,7 @@ router.post(
     req.body = JSON.parse(req.body.data);
     next();
   },
-  // validateZodRequest(zodRoomSchema.roomZodSchema),
+  validateZodRequest(zodRoomSchema.roomZodSchema),
   RoomController.createRoom
 );
 

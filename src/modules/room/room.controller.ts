@@ -17,13 +17,13 @@ const createRoom = catchAsync(
     const user = await getUser(req);
 
 
-    // const result = await RoomService.createRoom(roomData, extraImages, thumbnail, user);
+    const result = await RoomService.createRoom(roomData, extraImages, thumbnail, user);
     
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Room added successfully",
-      data: "result",
+      data: result,
     });
   }
 );
