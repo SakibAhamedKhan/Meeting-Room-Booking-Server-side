@@ -57,7 +57,7 @@ const deleteSingleRoom = async (payload: string) => {
 
 const getAllRoom = async () => {
 
-  const result = await Room.find();
+  const result = await Room.find({isApproved:true});
  
   return result;
 };
@@ -66,10 +66,10 @@ const getAllRoomOperation = async (user:any) => {
   
   let result;
   if(user.role===USER_ROLE.ADMIN){
-    result = await Room.find();
+    result = await Room.find().populate('owner');
   }
   if(user.role===USER_ROLE.PARTNER){
-    result = await Room.find({owner:user._id});
+    result = await Room.find({owner:user._id}).populate('owner');
   }
   
  
