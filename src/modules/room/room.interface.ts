@@ -1,4 +1,7 @@
+import { Schema } from "mongoose";
+
 export type TRoomSchema = {
+  owner: Schema.Types.ObjectId;
   name: string;
   roomNo: number;
   floorNo: number;

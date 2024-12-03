@@ -3,6 +3,11 @@ import { TRoomSchema } from "./room.interface";
 import { object } from "zod";
 
 const roomSchema = new Schema<TRoomSchema>({
+  owner: {
+    type: Schema.Types.ObjectId,
+    require: [true, "Owner id is required"],
+    ref: "User",
+  },
   name: {
     type: String,
     required: [true, "Name is required"],

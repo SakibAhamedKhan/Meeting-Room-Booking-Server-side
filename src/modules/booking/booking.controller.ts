@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { BookingService } from "./bookings.service";
-import { getUser } from "../../utils/getUserId";
+import { getUser } from "../../utils/getUser";
 import { ObjectId } from "mongoose";
 
 const createBooking = catchAsync(

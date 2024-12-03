@@ -17,10 +17,11 @@ router.post(
     { name: 'thumbnail', maxCount: 1 }     
   ]),
   (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.files);
     req.body = JSON.parse(req.body.data);
     next();
   },
-  validateZodRequest(zodRoomSchema.roomZodSchema),
+  // validateZodRequest(zodRoomSchema.roomZodSchema),
   RoomController.createRoom
 );
 

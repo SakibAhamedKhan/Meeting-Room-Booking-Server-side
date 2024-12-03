@@ -7,12 +7,13 @@ import { TUserSchema } from "../modules/user/user.interface";
 
 export const getUser = async (req: Request): Promise<any> => {
   const token = req.headers.authorization as string;
+  console.log(token);
   const decoded = jwt.verify(
     token,
     config.jwt_access_secret as string
   ) as JwtPayload;
-  const { role, email, iat } = decoded;
-  const user = await User.findOne({ email: email });
+  const { role, userId, iat } = decoded;
+  const user = await User.findOne({ _id: userId });
 
   return user;
 };

@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { RoomService } from "./room.service";
 import { MulterFileFields } from "./room.interface";
+import { getUser } from "../../utils/getUser";
+
 
 const createRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -9,14 +11,19 @@ const createRoom = catchAsync(
     const files = req.files as MulterFileFields;
     const extraImages = files.extraImages;
     const thumbnail = files.thumbnail;
-    // roomData.isDeleted = false;
-    const result = await RoomService.createRoom(roomData, extraImages, thumbnail);
+
+    console.log(extraImages)
+    console.log(thumbnail)
+    const user = await getUser(req);
+
+
+    // const result = await RoomService.createRoom(roomData, extraImages, thumbnail, user);
     
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Room added successfully",
-      data: result,
+      data: "result",
     });
   }
 );

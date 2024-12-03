@@ -4,12 +4,15 @@ import { Room } from "./room.model";
 import mongoose from "mongoose";
 import { sendImagesToCloudinary } from "../../utils/sendImageToCloudinary";
 import AppError from "../../errors/AppError";
+import { TUserSchema } from "../user/user.interface";
 
 const createRoom = async (
   payload: TRoomSchema,
   extraImages?: Express.Multer.File[],
-  thumbnail?: Express.Multer.File[]
+  thumbnail?: Express.Multer.File[],
+  user?: any,
 ) => {
+  console.log("15 => ", user);
   const session = await mongoose.startSession();
   let result;
   try {
@@ -22,6 +25,7 @@ const createRoom = async (
       const thumbnail_secure_url = await sendImagesToCloudinary(thumbnail);
       payload.thumbnail = thumbnail_secure_url;
     }
+    payload.owner = user._id;
     result = await Room.create([payload], { session });
 
     await session.commitTransaction();
@@ -29,7 +33,7 @@ const createRoom = async (
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(500, "Something wrong in createRoom", error);
+    throw new AppError(500, "Something wrong in createRoom in service", error);
   }
 
   return result;
