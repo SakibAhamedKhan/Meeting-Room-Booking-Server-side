@@ -61,4 +61,16 @@ router.patch(
   RoomController.activateRoom
 );
 
+router.get(
+  "/checking/activated",
+  auth(USER_ROLE.ADMIN),
+  RoomController.getAllActivatedRoom
+);
+
+
+router.patch(
+  "/deactivate/:roomId",
+  auth(USER_ROLE.ADMIN),
+  RoomController.deActivateRoom
+);
 export const RoomRoutes = router;

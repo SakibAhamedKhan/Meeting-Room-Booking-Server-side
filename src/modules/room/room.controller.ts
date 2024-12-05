@@ -116,6 +116,33 @@ const activateRoom = catchAsync(
   }
 );
 
+const getAllActivatedRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await RoomService.getAllActivatedRoom(req.query);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "All activated Room retrieved successfully",
+      meta: result.meta,
+      data: result.result,
+    });
+  }
+);
+
+const deActivateRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { roomId } = req.params;
+    const result = await RoomService.deActivateRoom(roomId);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room deactivate successfully",
+      data: result,
+    });
+  }
+);
+
 export const RoomController = {
   createRoom,
   getSingleRoom,
@@ -124,4 +151,6 @@ export const RoomController = {
   deleteSingleRoom,
   getAllRoomOperation,
   activateRoom,
+  getAllActivatedRoom,
+  deActivateRoom,
 };

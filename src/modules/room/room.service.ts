@@ -62,15 +62,17 @@ const getAllRoom = async () => {
   return result;
 };
 
-const getAllRoomOperation = async (user: any, payload: Record<string, unknown>) => {
+const getAllRoomOperation = async (
+  user: any,
+  payload: Record<string, unknown>
+) => {
   let result;
   let meta;
   if (user.role === USER_ROLE.ADMIN) {
     const roomQuery = new QueryBuilder(
-      Room.find({isApproved:false}).populate("owner"),
+      Room.find({ isApproved: false }).populate("owner"),
       payload
-    )
-      .pagination()
+    ).pagination();
 
     result = await roomQuery.modelQuery;
     meta = await roomQuery.countTotal();
@@ -79,8 +81,7 @@ const getAllRoomOperation = async (user: any, payload: Record<string, unknown>) 
     const roomQuery = new QueryBuilder(
       Room.find({ owner: user._id }).populate("owner"),
       payload
-    )
-      .pagination()
+    ).pagination();
 
     result = await roomQuery.modelQuery;
     meta = await roomQuery.countTotal();
@@ -98,6 +99,27 @@ const activateRoom = async (id: string) => {
   return result;
 };
 
+const getAllActivatedRoom = async (payload: Record<string, unknown>) => {
+  const roomQuery = new QueryBuilder(
+    Room.find({ isApproved: true }).populate("owner"),
+    payload
+  ).pagination();
+  console.log("107=", payload);
+  const result = await roomQuery.modelQuery;
+  const meta = await roomQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
+};
+
+const deActivateRoom = async (id: string) => {
+  const result = await Room.updateOne({ _id: id }, { isApproved: false });
+
+  return result;
+};
+
 export const RoomService = {
   createRoom,
   getSingleRoom,
@@ -106,4 +128,6 @@ export const RoomService = {
   deleteSingleRoom,
   getAllRoomOperation,
   activateRoom,
+  getAllActivatedRoom,
+  deActivateRoom,
 };
