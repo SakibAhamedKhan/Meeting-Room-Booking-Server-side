@@ -90,12 +90,27 @@ const getAllRoom = catchAsync(
 const getAllRoomOperation = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
-    const result = await RoomService.getAllRoomOperation(user);
-
+    const result = await RoomService.getAllRoomOperation(user, req.query);
+    console.log(result);
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Room retrieved successfully",
+      meta: result.meta,
+      data: result.result,
+    });
+  }
+);
+
+const activateRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { roomId } = req.params;
+    const result = await RoomService.activateRoom(roomId);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room activate successfully",
       data: result,
     });
   }
@@ -108,4 +123,5 @@ export const RoomController = {
   updateSingleRoom,
   deleteSingleRoom,
   getAllRoomOperation,
+  activateRoom,
 };

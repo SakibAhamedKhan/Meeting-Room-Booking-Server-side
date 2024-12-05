@@ -55,4 +55,10 @@ router.get(
   RoomController.getAllRoomOperation
 );
 
+router.patch(
+  "/activate/:roomId",
+  auth(USER_ROLE.ADMIN),
+  RoomController.activateRoom
+);
+
 export const RoomRoutes = router;

@@ -26,6 +26,7 @@ export class QueryBuilder<T> {
   }
 
   pagination() {
+    console.log(this.query.limit);
     let limit: number = Number(this.query?.limit || 10);
     let skip: number = 0;
     if (this.query?.page) {
@@ -52,5 +53,20 @@ export class QueryBuilder<T> {
     exculdedQuery.forEach((exe) => delete queryObj[exe]);
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
     return this;
+  }
+
+  async countTotal() {
+    const totalQueries = this.modelQuery.getFilter();
+    const total = await this.modelQuery.model.countDocuments(totalQueries);
+    const page = Number(this?.query?.page) || 1;
+    const limit = Number(this?.query?.limit) || 10;
+    const totalPage = Math.ceil(total / limit);
+
+    return {
+      page,
+      limit,
+      total,
+      totalPage,
+    };
   }
 }
