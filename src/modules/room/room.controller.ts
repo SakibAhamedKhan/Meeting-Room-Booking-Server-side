@@ -91,7 +91,6 @@ const getAllRoomOperation = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
     const result = await RoomService.getAllRoomOperation(user, req.query);
-    console.log(result);
     res.status(200).json({
       success: true,
       statusCode: 200,
@@ -143,6 +142,50 @@ const deActivateRoom = catchAsync(
   }
 );
 
+const declinedRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { roomId } = req.params;
+    const result = await RoomService.declinedRoom(roomId);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room declined successfully",
+      data: result,
+    });
+  }
+);
+
+const publishRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { roomId } = req.params;
+    const user = await getUser(req);
+    const result = await RoomService.publishRoom(user,roomId);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room published successfully",
+      data: result,
+    });
+  }
+);
+
+const unPublishRoom = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { roomId } = req.params;
+    const user = await getUser(req);
+    const result = await RoomService.unPublishRoom(user,roomId);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Room unPublished successfully",
+      data: result,
+    });
+  }
+);
+
 export const RoomController = {
   createRoom,
   getSingleRoom,
@@ -153,4 +196,7 @@ export const RoomController = {
   activateRoom,
   getAllActivatedRoom,
   deActivateRoom,
+  declinedRoom,
+  publishRoom,
+  unPublishRoom,
 };

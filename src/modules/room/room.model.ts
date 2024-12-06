@@ -85,6 +85,10 @@ const roomSchema = new Schema<TRoomSchema>({
     type: Boolean,
     default: false,
   },
+  partnerPublish: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const Room = model<TRoomSchema>("Room", roomSchema);

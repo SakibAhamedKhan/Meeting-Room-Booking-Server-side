@@ -14,7 +14,6 @@ const createRoom = async (
   thumbnail?: Express.Multer.File[],
   user?: any
 ) => {
-  console.log("15 => ", user);
   const session = await mongoose.startSession();
   let result;
   try {
@@ -57,7 +56,11 @@ const deleteSingleRoom = async (payload: string) => {
 };
 
 const getAllRoom = async () => {
-  const result = await Room.find({ isApproved: true });
+  const result = await Room.find({
+    isApproved: true,
+    partnerPublish: true,
+    isBanned: false,
+  });
 
   return result;
 };
@@ -70,7 +73,7 @@ const getAllRoomOperation = async (
   let meta;
   if (user.role === USER_ROLE.ADMIN) {
     const roomQuery = new QueryBuilder(
-      Room.find({ isApproved: false }).populate("owner"),
+      Room.find({ isApproved: false, isBanned: false }).populate("owner"),
       payload
     ).pagination();
 
@@ -104,7 +107,6 @@ const getAllActivatedRoom = async (payload: Record<string, unknown>) => {
     Room.find({ isApproved: true }).populate("owner"),
     payload
   ).pagination();
-  console.log("107=", payload);
   const result = await roomQuery.modelQuery;
   const meta = await roomQuery.countTotal();
 
@@ -120,6 +122,32 @@ const deActivateRoom = async (id: string) => {
   return result;
 };
 
+const declinedRoom = async (id: string) => {
+  const result = await Room.updateOne({ _id: id }, { isBanned: true });
+
+  return result;
+};
+
+const publishRoom = async (user: any, id: string) => {
+  console.log("132 SErvice: ", user);
+  const result = await Room.updateOne(
+    { _id: id, owner: user._id },
+    { partnerPublish: true }
+  );
+
+  return result;
+};
+
+const unPublishRoom = async (user: any, id: string) => {
+  console.log("142 SErvice: ", user);
+  const result = await Room.updateOne(
+    { _id: id, owner: user._id },
+    { partnerPublish: false }
+  );
+
+  return result;
+};
+
 export const RoomService = {
   createRoom,
   getSingleRoom,
@@ -130,4 +158,7 @@ export const RoomService = {
   activateRoom,
   getAllActivatedRoom,
   deActivateRoom,
+  declinedRoom,
+  publishRoom,
+  unPublishRoom,
 };

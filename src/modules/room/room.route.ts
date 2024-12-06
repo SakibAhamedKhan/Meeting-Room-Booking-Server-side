@@ -17,7 +17,6 @@ router.post(
     { name: 'thumbnail', maxCount: 1 }     
   ]),
   (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.files);
     req.body = JSON.parse(req.body.data);
     next();
   },
@@ -73,4 +72,23 @@ router.patch(
   auth(USER_ROLE.ADMIN),
   RoomController.deActivateRoom
 );
+
+router.patch(
+  "/declined/:roomId",
+  auth(USER_ROLE.ADMIN),
+  RoomController.declinedRoom
+);
+
+router.patch(
+  "/publish/:roomId",
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  RoomController.publishRoom
+);
+
+router.patch(
+  "/unpublish/:roomId",
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  RoomController.unPublishRoom
+);
+
 export const RoomRoutes = router;
