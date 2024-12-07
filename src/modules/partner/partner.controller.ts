@@ -30,7 +30,21 @@ const decisionMakePartner = catchAsync(
   }
 );
 
+const getAllPartners = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await PartnerService.getAllPartners(req.query);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: `Partners retrived successfully`,
+      data: result,
+    });
+  }
+);
+
 export const PartnerController = {
   requestedPartner,
-  decisionMakePartner
+  decisionMakePartner,
+  getAllPartners,
 };

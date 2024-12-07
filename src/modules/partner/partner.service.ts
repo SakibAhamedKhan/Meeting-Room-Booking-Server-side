@@ -1,3 +1,4 @@
+import { QueryBuilder } from "../../builder/QueryBuilder";
 import { USER_ROLE } from "../user/user.constant";
 import { User } from "../user/user.model";
 import { TPartnerSchema } from "./partner.interface";
@@ -15,7 +16,7 @@ const decisionMakePartner = async (
 ) => {
   let result;
 
-  if (payload.operation === "approved") {
+  if (payload.operation === "Approved") {
     result = await User.updateOne(
       { _id: partnerData.user },
       { role: USER_ROLE.PARTNER }
@@ -25,7 +26,7 @@ const decisionMakePartner = async (
       { _id: partnerData.requestedId },
       { isApproved: "Approved" }
     );
-  } else if (payload.operation === "rejected") {
+  } else if (payload.operation === "Rejected") {
     result = await Partner.updateOne(
       { _id: partnerData.requestedId },
       { isApproved: "Rejected" }
@@ -35,7 +36,40 @@ const decisionMakePartner = async (
   return result;
 };
 
+const getAllPartners = async (payload: Record<string, unknown>) => {
+  let result;
+  let meta;
+  if (payload.isApproved === "Approved") {
+    const partnerQuery = new QueryBuilder(
+      Partner.find({ isApproved: payload.isApproved }).populate("user"),
+      payload
+    ).pagination();
+    result = await partnerQuery.modelQuery;
+    meta = await partnerQuery.countTotal();
+  } else if (payload.isApproved === "Rejected") {
+    const partnerQuery = new QueryBuilder(
+      Partner.find({ isApproved: payload.isApproved }).populate("user"),
+      payload
+    ).pagination();
+    result = await partnerQuery.modelQuery;
+    meta = await partnerQuery.countTotal();
+  } else if (payload.isApproved === "Pending") {
+    const partnerQuery = new QueryBuilder(
+      Partner.find({ isApproved: payload.isApproved }).populate("user"),
+      payload
+    ).pagination();
+    result = await partnerQuery.modelQuery;
+    meta = await partnerQuery.countTotal();
+  }
+
+  return {
+    meta,
+    result,
+  };
+};
+
 export const PartnerService = {
   requestedPartner,
   decisionMakePartner,
+  getAllPartners,
 };

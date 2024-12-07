@@ -14,7 +14,6 @@ export type TPartnerSchema = {
     idType: keyof typeof ID_TYPE;
     idNumber: string;
   };
-  status: "Pending" | "Approved" | "Rejected";
   isApproved: "Pending" | "Approved" | "Rejected";
   termsAgreed: boolean;
   createdAt?: Date;

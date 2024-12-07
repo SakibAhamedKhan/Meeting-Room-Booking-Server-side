@@ -5,6 +5,12 @@ import { PartnerController } from "./partner.controller";
 
 const router = express.Router();
 
+router.get(
+    "/",
+     // auth(USER_ROLE.ADMIN),
+     PartnerController.getAllPartners
+)
+
 router.post(
     "/requested",
     // auth(USER_ROLE.PARTNER),

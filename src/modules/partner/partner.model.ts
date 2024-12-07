@@ -39,11 +39,7 @@ const partnerSchema = new Schema<TPartnerSchema>({
     },
     idNumber: { type: String, required: [true, "idNumber id is required"] },
   },
-  status: {
-    type: String,
-    enum: PARTNER_STATUS,
-    default: "Pending",
-  },
+ 
   termsAgreed: {
     type: Boolean,
     required: [true, "termsAgreed id is required"],
