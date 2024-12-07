@@ -38,7 +38,8 @@ const getAllPartners = catchAsync(
       success: true,
       statusCode: 200,
       message: `Partners retrived successfully`,
-      data: result,
+      meta: result.meta,
+      data: result.result,
     });
   }
 );
