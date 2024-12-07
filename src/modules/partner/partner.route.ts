@@ -7,19 +7,19 @@ const router = express.Router();
 
 router.get(
     "/",
-     // auth(USER_ROLE.ADMIN),
+     auth(USER_ROLE.ADMIN),
      PartnerController.getAllPartners
 )
 
 router.post(
     "/requested",
-    // auth(USER_ROLE.PARTNER),
+    auth(USER_ROLE.PARTNER),
     PartnerController.requestedPartner
 )
 
 router.patch(
     "/requested/decisionmake",
-    // auth(USER_ROLE.ADMIN),
+    auth(USER_ROLE.ADMIN),
     PartnerController.decisionMakePartner
 )
 
