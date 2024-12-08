@@ -29,6 +29,8 @@ const auth = (...requiredRoles: TUserRoles[]) => {
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "This user is not found");
     }
+    // console.log(role, userId);
+    // console.log(requiredRoles);
 
     if (!requiredRoles.includes(role)) {
       throw new AppError(

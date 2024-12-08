@@ -5,4 +5,4 @@ export const USER_ROLE = {
     SUBADMIN: "SUBADMIN",
   } as const;
 
-  export const UserStatus = ['in-progress', 'blocked'] as const;;
+  export const UserStatus = ['in-progress', 'blocked'] as const;

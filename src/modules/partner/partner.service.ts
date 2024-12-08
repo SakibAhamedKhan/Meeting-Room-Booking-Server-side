@@ -68,8 +68,17 @@ const getAllPartners = async (payload: Record<string, unknown>) => {
   };
 };
 
+const getSinglePatnerRequest = async (userId: string) => {
+  const result = await Partner.findOne({ user: userId })
+    .sort({ createdAt: -1 }) 
+    .exec();
+
+  return result;
+};
+
 export const PartnerService = {
   requestedPartner,
   decisionMakePartner,
   getAllPartners,
+  getSinglePatnerRequest,
 };

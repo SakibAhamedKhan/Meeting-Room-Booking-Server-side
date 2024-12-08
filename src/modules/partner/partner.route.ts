@@ -11,14 +11,20 @@ router.get(
      PartnerController.getAllPartners
 )
 
+router.get(
+    "/requested",
+     auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
+     PartnerController.getSinglePatnerRequest
+)
+
 router.post(
     "/requested",
-    auth(USER_ROLE.PARTNER),
+    // auth(USER_ROLE.PARTNER),
     PartnerController.requestedPartner
 )
 
 router.patch(
-    "/requested/decisionmake",
+    "/decisionmake",
     auth(USER_ROLE.ADMIN),
     PartnerController.decisionMakePartner
 )

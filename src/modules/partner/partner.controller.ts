@@ -1,10 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { PartnerService } from "./partner.service";
+import { getUser } from "../../utils/getUser";
+import AppError from "../../errors/AppError";
 
 const requestedPartner = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const partnerData = req.body;
+    let partnerData = req.body;
+    const user = await getUser(req);
+    partnerData.user = user._id;
+    if (partnerData.termsAgreed === false) {
+      throw new AppError(404, "Terms and conditions must be agree");
+    }
+
     const result = await PartnerService.requestedPartner(partnerData);
 
     res.status(200).json({
@@ -19,7 +27,10 @@ const requestedPartner = catchAsync(
 const decisionMakePartner = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const partnerData = req.body;
-    const result = await PartnerService.decisionMakePartner(partnerData, req.query);
+    const result = await PartnerService.decisionMakePartner(
+      partnerData,
+      req.query
+    );
 
     res.status(200).json({
       success: true,
@@ -44,8 +55,23 @@ const getAllPartners = catchAsync(
   }
 );
 
+const getSinglePatnerRequest = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    const result = await PartnerService.getSinglePatnerRequest(user._id);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: `Single partners latest request retrived`,
+      data: result,
+    });
+  }
+);
+
 export const PartnerController = {
   requestedPartner,
   decisionMakePartner,
   getAllPartners,
+  getSinglePatnerRequest,
 };
