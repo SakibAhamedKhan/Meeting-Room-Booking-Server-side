@@ -31,6 +31,10 @@ const decisionMakePartner = async (
       { _id: partnerData.requestedId },
       { isApproved: "Rejected" }
     );
+    const updated = await User.updateOne(
+      { _id: partnerData.user },
+      { role: USER_ROLE.CUSTOMER }
+    );
   }
 
   return result;
