@@ -33,6 +33,14 @@ const makeRoomFavourite = async (payload: TFavouriteSchema) => {
   return result;
 };
 
+const makeRoomUnFavourite = async (payload: TFavouriteSchema) => {
+  const result = await Favourite.deleteOne({
+    user: payload.user,
+    room: payload.room,
+  });
+  return result;
+};
+
 const deleteRoomFavourite = async (payload: TFavouriteSchema) => {
   const result = await Favourite.deleteOne({
     user: payload.user,
@@ -45,4 +53,5 @@ export const FavouriteService = {
   getAllFavouriteMe,
   makeRoomFavourite,
   deleteRoomFavourite,
+  makeRoomUnFavourite,
 };

@@ -37,6 +37,22 @@ const makeRoomFavourite = catchAsync(
   }
 );
 
+const makeRoomUnFavourite = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    let favouriteData = req.body;
+    favouriteData.user = user._id;
+    const result = await FavouriteService.makeRoomUnFavourite(favouriteData);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: `Favourite rooms added successfully`,
+      data: result,
+    });
+  }
+);
+
 const deleteRoomFavourite = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
@@ -56,5 +72,6 @@ const deleteRoomFavourite = catchAsync(
 export const FavouriteController = {
   getAllFavouriteMe,
   makeRoomFavourite,
-  deleteRoomFavourite
+  deleteRoomFavourite,
+  makeRoomUnFavourite,
 };

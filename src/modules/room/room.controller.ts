@@ -34,7 +34,13 @@ const createRoom = catchAsync(
 const getSingleRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { roomId } = req.params;
-    const result = await RoomService.getSingleRoom(roomId);
+    const token = req.headers.authorization as string;
+    let user = null;
+    if(token){
+      user = await getUser(req);
+    }
+    
+    const result = await RoomService.getSingleRoom(roomId, user);
 
     res.status(200).json({
       success: true,

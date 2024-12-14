@@ -7,7 +7,6 @@ import { TUserSchema } from "../modules/user/user.interface";
 
 export const getUser = async (req: Request): Promise<any> => {
   const token = req.headers.authorization as string;
-  console.log(token);
   const decoded = jwt.verify(
     token,
     config.jwt_access_secret as string

@@ -7,6 +7,7 @@ import AppError from "../../errors/AppError";
 import { TUserSchema } from "../user/user.interface";
 import { USER_ROLE } from "../user/user.constant";
 import { QueryBuilder } from "../../builder/QueryBuilder";
+import { Favourite } from "../favourite/favourite.model";
 
 const createRoom = async (
   payload: TRoomSchema,
@@ -40,14 +41,26 @@ const createRoom = async (
   return result;
 };
 
-const getSingleRoom = async (payload: string) => {
-  const result = await Room.findById(payload);
+const getSingleRoom = async (payload: string, user: any) => {
+  let result = (await Room.findById(payload).lean()) as any;
+  console.log(user);
+  if (user != null) {
+    const fav = await Favourite.find({ user: user?._id, room: payload });
+    if (fav.length > 0) {
+      result.favourited = true;
+    } else {
+      result.favourited = false;
+    }
+  } else {
+    result.favourited = false;
+  }
+  console.log(result);
   return result;
 };
 
 const updateSingleRoom = async (id: string, payload: TRoomSchema) => {
   const result = await Room.updateOne({ _id: id }, payload);
-  return await getSingleRoom(id);
+  return result;
 };
 
 const deleteSingleRoom = async (payload: string) => {

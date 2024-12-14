@@ -32,7 +32,7 @@ router.get(
 
 router.put(
   "/:roomId",
-  auth(USER_ROLE.ADMIN),
+  auth(USER_ROLE.ADMIN),  
   validateZodRequest(zodRoomSchema.roomUpdateZodSchema),
   RoomController.updateSingleRoom
 );

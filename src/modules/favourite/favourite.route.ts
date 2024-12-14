@@ -16,6 +16,11 @@ router.post(
     auth(USER_ROLE.CUSTOMER),
     FavouriteController.makeRoomFavourite
 )
+router.post(
+    "/unfav",
+    auth(USER_ROLE.CUSTOMER),
+    FavouriteController.makeRoomUnFavourite
+)
 
 router.delete(
     "/me",
