@@ -24,6 +24,7 @@ export type TRoomSchema = {
   isDeleted: boolean;
   isApproved: boolean;
   isBanned: boolean;
+  haveSlot: boolean;
   partnerPublish: boolean;
 };
 

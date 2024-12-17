@@ -7,6 +7,11 @@ const slotSchema = new Schema<TSlotSchema>({
     require: [true, "Room id is required"],
     ref: "Room",
   },
+  owner: {
+    type: Schema.Types.ObjectId,
+    require: [true, "Owner id is required"],
+    ref: "User",
+  },
   date: {
     type: Date,
     require: [true, "Date is required"],
