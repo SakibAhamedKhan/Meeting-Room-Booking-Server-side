@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
     "/",
-    auth(USER_ROLE.ADMIN),
+    auth(USER_ROLE.PARTNER),
     SlotController.createSlot
 );
 

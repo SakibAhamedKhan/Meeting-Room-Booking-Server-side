@@ -161,6 +161,16 @@ const unPublishRoom = async (user: any, id: string) => {
   return result;
 };
 
+const haveSlotActivate = async(id:string) => {
+  const result = await Room.updateOne({_id:id}, {haveSlot:true})
+  return result;
+}
+
+const haveSlotUnActivate = async(id:string) => {
+  const result = await Room.updateOne({_id:id}, {haveSlot:false})
+  return result;
+}
+
 export const RoomService = {
   createRoom,
   getSingleRoom,
@@ -174,4 +184,7 @@ export const RoomService = {
   declinedRoom,
   publishRoom,
   unPublishRoom,
+  haveSlotActivate,
+  haveSlotUnActivate,
+
 };

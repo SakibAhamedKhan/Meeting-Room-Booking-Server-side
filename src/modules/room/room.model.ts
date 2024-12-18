@@ -85,6 +85,10 @@ const roomSchema = new Schema<TRoomSchema>({
     type: Boolean,
     default: false,
   },
+  haveSlot: {
+    type: Boolean,
+    default: false,
+  },
   partnerPublish: {
     type: Boolean,
     default: false,
