@@ -13,6 +13,12 @@ router.post(
 );
 
 router.get(
+    "/getAllSlot/:id",
+    auth(USER_ROLE.PARTNER),
+    SlotController.getAllMySLot
+);
+
+router.get(
     "/availability",
     auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
     SlotController.getAvaliableSlots

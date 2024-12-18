@@ -11,28 +11,35 @@ const createSlot = async (payload: TSlotSchema) => {
 const getAvaliableSlots = async (payload: Record<string, unknown>) => {
   console.log(payload);
   const slotQuery = new QueryBuilder(
-    Slot.find({ isBooked: false }).populate('room'),
+    Slot.find({ isBooked: false }).populate("room"),
     payload
   )
-  .pagination()
-  .filtering();
+    .pagination()
+    .filtering();
 
   const result = await slotQuery.modelQuery;
 
   return result;
 };
 
-const updateSlotsBooked =async (id:ObjectId[],payload:boolean) => {
+const updateSlotsBooked = async (id: ObjectId[], payload: boolean) => {
   console.log("26: ", payload);
   const result = await Slot.updateMany(
-    {_id: {$in: id}},
-    {$set: {isBooked:payload}},
-    {multi: true}
-  )
+    { _id: { $in: id } },
+    { $set: { isBooked: payload } },
+    { multi: true }
+  );
   return result;
-}
+};
+
+const getAllMySLot = async (id:string) => {
+  const result = await Slot.find({ room: id });
+  return result;
+};
+
 export const SlotService = {
   createSlot,
   getAvaliableSlots,
   updateSlotsBooked,
+  getAllMySLot,
 };
