@@ -7,7 +7,8 @@ import { ObjectId } from "mongoose";
 const createBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const bookingData = req.body;
-    const result = await BookingService.createBooking(bookingData);
+    const user = await getUser(req);
+    const result = await BookingService.createBooking(bookingData, user);
 
     res.status(200).json({
       success: true,

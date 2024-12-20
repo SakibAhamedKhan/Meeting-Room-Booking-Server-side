@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 import { TRoomSchema } from "./room.interface";
-import { object } from "zod";
 
 const roomSchema = new Schema<TRoomSchema>({
   owner: {

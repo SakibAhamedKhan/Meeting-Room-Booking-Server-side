@@ -6,7 +6,7 @@ import AppError from "../../errors/AppError";
 
 const requestedPartner = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    let partnerData = req.body;
+    const partnerData = req.body;
     const user = await getUser(req);
     partnerData.user = user._id;
     if (partnerData.termsAgreed === false) {

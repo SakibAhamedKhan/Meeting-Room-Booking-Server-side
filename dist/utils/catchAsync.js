@@ -13,12 +13,12 @@ exports.catchAsync = void 0;
 const catchAsync = (fn) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         Promise.resolve(fn(req, res, next)).catch((error) => {
-            console.log("2222222");
-            res.status(500).json({
-                success: false,
-                message: "Could not fected successfully",
-                error: error,
-            });
+            // res.status(500).json({
+            //     success: false, 
+            //     message: "Could not fected successfully", 
+            //     error: error, 
+            // })
+            next(error);
         });
     });
 };

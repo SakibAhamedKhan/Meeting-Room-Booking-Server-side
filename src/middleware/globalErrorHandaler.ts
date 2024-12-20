@@ -10,7 +10,6 @@ export const globalErrorHandaler = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction
 ) => {
   let statusCode = 500;
   let message = "Something went wrong";

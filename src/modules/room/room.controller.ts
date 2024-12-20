@@ -11,8 +11,6 @@ const createRoom = catchAsync(
     const extraImages = files.extraImages;
     const thumbnail = files.thumbnail;
 
-    console.log(extraImages);
-    console.log(thumbnail);
     const user = await getUser(req);
 
     const result = await RoomService.createRoom(

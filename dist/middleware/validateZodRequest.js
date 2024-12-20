@@ -17,7 +17,6 @@ const validateZodRequest = (schema) => {
             next();
         }
         catch (error) {
-            console.log("hehehehehe");
             next(error);
         }
     });

@@ -44,6 +44,11 @@ const userSchema = new mongoose_1.Schema({
         require: [true, "Role is required"],
         enum: Object.keys(user_constant_1.USER_ROLE),
     },
+    status: {
+        type: String,
+        enum: user_constant_1.UserStatus,
+        default: 'in-progress',
+    },
 });
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -52,4 +57,15 @@ userSchema.pre("save", function (next) {
         next();
     });
 });
+userSchema.set("toJSON", {
+    transform: function (doc, ret) {
+        delete ret.password;
+        return ret;
+    },
+});
+userSchema.statics.isUserExistsByCustomUserId = function (id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield exports.User.findOne({ id }).select('+password');
+    });
+};
 exports.User = (0, mongoose_1.model)("User", userSchema);

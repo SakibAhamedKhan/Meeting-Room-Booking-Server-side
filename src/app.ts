@@ -1,7 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { UserRoutes } from "./modules/user/user.route";
 import { globalErrorHandaler } from "./middleware/globalErrorHandaler";
 import { AuthRoutes } from "./modules/auth/auth.route";
 import { RoomRoutes } from "./modules/room/room.route";

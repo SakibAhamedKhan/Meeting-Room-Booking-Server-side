@@ -24,7 +24,7 @@ const getAllFavouriteMe = catchAsync(
 const makeRoomFavourite = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
-    let favouriteData = req.body;
+    const favouriteData = req.body;
     favouriteData.user = user._id;
     const result = await FavouriteService.makeRoomFavourite(favouriteData);
 
@@ -40,7 +40,7 @@ const makeRoomFavourite = catchAsync(
 const makeRoomUnFavourite = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
-    let favouriteData = req.body;
+    const favouriteData = req.body;
     favouriteData.user = user._id;
     const result = await FavouriteService.makeRoomUnFavourite(favouriteData);
 
@@ -56,7 +56,7 @@ const makeRoomUnFavourite = catchAsync(
 const deleteRoomFavourite = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await getUser(req);
-    let favouriteData = req.body;
+    const favouriteData = req.body;
     favouriteData.user = user._id;
     const result = await FavouriteService.deleteRoomFavourite(favouriteData);
 

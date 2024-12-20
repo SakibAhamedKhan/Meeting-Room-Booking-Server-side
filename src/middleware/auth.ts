@@ -5,7 +5,6 @@ import AppError from "../errors/AppError";
 import httpStatus from "http-status";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
-import app from "../app";
 import { User } from "../modules/user/user.model";
 
 const auth = (...requiredRoles: TUserRoles[]) => {
@@ -21,8 +20,7 @@ const auth = (...requiredRoles: TUserRoles[]) => {
       config.jwt_access_secret as string
     ) as JwtPayload;
 
-    console.log(decoded);
-    const { role, userId, iat } = decoded;
+    const { role, userId } = decoded;
 
     // checking if the user is exist
     const user = await User.findOne({ _id:userId  });

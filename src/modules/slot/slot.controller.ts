@@ -8,22 +8,22 @@ import { TUserSchema } from "../user/user.interface";
 
 const createSlot = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    let slotData = req.body;
+    const slotData = req.body;
     const user = getUser(req) as any;
     slotData.owner = user._id;
     const startTimeObj = timeRelated.timeToMinutes(slotData.startTime);
     const endTimeObj = timeRelated.timeToMinutes(slotData.endTime);
     let startTimeInMintues = startTimeObj.totalMinutes;
-    let endTimeInMinutes = endTimeObj.totalMinutes;
+    const endTimeInMinutes = endTimeObj.totalMinutes;
 
-    let slot = (endTimeInMinutes - startTimeInMintues) / 60;
+    const slot = (endTimeInMinutes - startTimeInMintues) / 60;
 
-    let data = [];
+    const data = [];
     for (let i = 1; i <= slot; i++) {
       const startTime = timeRelated.minutesToTime(startTimeInMintues);
       const endTime = timeRelated.minutesToTime(startTimeInMintues + 60);
       startTimeInMintues += 60;
-      let newData = slotData;
+      const newData = slotData;
       newData.startTime = startTime;
       newData.endTime = endTime;
       const result = await SlotService.createSlot(newData);

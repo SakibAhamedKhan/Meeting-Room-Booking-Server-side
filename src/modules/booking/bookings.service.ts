@@ -3,13 +3,14 @@ import { SlotService } from "../slot/slot.service";
 import { TBookingSchema } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { RoomService } from "../room/room.service";
+import { getUser } from "../../utils/getUser";
 
-const createBooking = async (payload: TBookingSchema) => {
+const createBooking = async (payload: TBookingSchema, user:any) => {
   const slotsArray = payload.slots as ObjectId[];
 
   const udpate = await SlotService.updateSlotsBooked(slotsArray, true);
-
-  const roomSingle = await RoomService.getSingleRoom(payload.room as any);
+  
+  const roomSingle = await RoomService.getSingleRoom(payload.room as any, user);
 
   payload.totalAmount = ((roomSingle?.pricePerSlot as number) *
     slotsArray.length) as number;
@@ -38,7 +39,7 @@ const getMyBooking = async (id: ObjectId) => {
   return result;
 };
 
-const updateBooking = async (id:string, payload: Object) => {
+const updateBooking = async (id:string, payload: object) => {
   const update = await Booking.updateOne({ _id: id }, payload);
   const result = await Booking.findOne({ _id: id });
   return result;
@@ -46,9 +47,7 @@ const updateBooking = async (id:string, payload: Object) => {
 
 const deleteBooking = async (id:string) => {
   const result:any = await Booking.findOne({_id: id});
-  console.log("49: ", result);
   const slotsArray = result?.slots;
-  console.log("51: ",slotsArray);
   const udpate = await SlotService.updateSlotsBooked(slotsArray, false);
   const deleteOne = await Booking.deleteOne({ _id: id });
 

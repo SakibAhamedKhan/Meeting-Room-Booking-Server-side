@@ -1,10 +1,8 @@
-import { create } from "domain";
 import { TRoomSchema } from "./room.interface";
 import { Room } from "./room.model";
 import mongoose from "mongoose";
 import { sendImagesToCloudinary } from "../../utils/sendImageToCloudinary";
 import AppError from "../../errors/AppError";
-import { TUserSchema } from "../user/user.interface";
 import { USER_ROLE } from "../user/user.constant";
 import { QueryBuilder } from "../../builder/QueryBuilder";
 import { Favourite } from "../favourite/favourite.model";
@@ -42,8 +40,7 @@ const createRoom = async (
 };
 
 const getSingleRoom = async (payload: string, user: any) => {
-  let result = (await Room.findById(payload).lean()) as any;
-  console.log(user);
+  const result = (await Room.findById(payload).lean()) as any;
   if (user != null) {
     const fav = await Favourite.find({ user: user?._id, room: payload });
     if (fav.length > 0) {
@@ -54,7 +51,6 @@ const getSingleRoom = async (payload: string, user: any) => {
   } else {
     result.favourited = false;
   }
-  console.log(result);
   return result;
 };
 
@@ -142,7 +138,6 @@ const declinedRoom = async (id: string) => {
 };
 
 const publishRoom = async (user: any, id: string) => {
-  console.log("132 SErvice: ", user);
   const result = await Room.updateOne(
     { _id: id, owner: user._id },
     { partnerPublish: true }
@@ -152,7 +147,6 @@ const publishRoom = async (user: any, id: string) => {
 };
 
 const unPublishRoom = async (user: any, id: string) => {
-  console.log("142 SErvice: ", user);
   const result = await Room.updateOne(
     { _id: id, owner: user._id },
     { partnerPublish: false }

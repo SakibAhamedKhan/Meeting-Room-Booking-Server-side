@@ -7,13 +7,13 @@ const getAllFavouriteMe = async (
   userId: string,
   payload: Record<string, unknown>
 ) => {
-  let result, meta;
+  
   const resultQuery = new QueryBuilder(
     Favourite.find({ user: userId }).populate("room").populate("user"),
     payload
   ).pagination();
-  result = await resultQuery.modelQuery;
-  meta = await resultQuery.countTotal();
+  const result = await resultQuery.modelQuery;
+  const meta = await resultQuery.countTotal();
 
   return {
     result,

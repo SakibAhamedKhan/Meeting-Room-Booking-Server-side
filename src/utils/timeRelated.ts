@@ -10,7 +10,7 @@ const timeToMinutes = (timeString: string) => {
 };
 
 const minutesToTime = (mintues: number) => {
-  let h = (Math.floor(mintues / 60));
+  const h = (Math.floor(mintues / 60));
   let hours = h.toString();
   if(hours.length==1){
     hours = `0${hours}`;

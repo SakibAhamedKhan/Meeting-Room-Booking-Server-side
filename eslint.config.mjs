@@ -12,6 +12,7 @@ export default [
       "no-undef": "error",
       "prefer-const": "error",
       "no-console": "warn",
+       "no-explicit-any": "off",
     },
   },
   {
@@ -19,4 +20,11 @@ export default [
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off", 
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
 ];

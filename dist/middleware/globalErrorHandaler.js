@@ -10,7 +10,7 @@ const zod_1 = require("zod");
 const handleDuplicateError_1 = require("../errors/handleDuplicateError");
 const handleZodError_1 = require("../errors/handleZodError");
 const AppError_1 = __importDefault(require("../errors/AppError"));
-const globalErrorHandaler = (err, req, res, next) => {
+const globalErrorHandaler = (err, req, res) => {
     let statusCode = 500;
     let message = "Something went wrong";
     let errorSources = [
