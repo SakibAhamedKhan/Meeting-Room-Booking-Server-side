@@ -14,6 +14,8 @@ const createBooking = async (payload: TBookingSchema, user:any) => {
 
   payload.totalAmount = ((roomSingle?.pricePerSlot as number) *
     slotsArray.length) as number;
+  
+  payload.user = user._id;
 
   const result = (
     await (

@@ -18,7 +18,7 @@ router.get(
     SlotController.getAllMySLot
 );
 
-router.get(
+router.post(
     "/availability",
     auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
     SlotController.getAvaliableSlots

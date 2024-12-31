@@ -29,7 +29,6 @@ const login = catchAsync(
       httpOnly: true,
       secure: config.node_env === "production",
     });
-
     res.status(200).json({
       success: true,
       statusCode: 200,

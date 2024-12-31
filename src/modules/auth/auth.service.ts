@@ -6,11 +6,13 @@ import { createToken, isPasswordMatched, verifyToken } from "./auth.util";
 import jwt from "jsonwebtoken";
 
 const signup = async (payload: TUserSchema) => {
+  payload.email = payload.email.toLowerCase();
   const result = await User.create(payload);
   return result;
 };
 
 const login = async (payload: TUserLogin): Promise<any> => {
+  payload.email = payload.email.toLowerCase();
   const user = await User.findOne({ email: payload.email });
 
   if (!user) {

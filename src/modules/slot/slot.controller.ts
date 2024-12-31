@@ -43,7 +43,8 @@ const createSlot = catchAsync(
 
 const getAvaliableSlots = catchAsync(
   async(req:Request, res:Response, next:NextFunction) => {
-    const result = await SlotService.getAvaliableSlots(req.query);
+    const data = req.body;
+    const result = await SlotService.getAvaliableSlots(data);
     
     res.status(200).json({
       success: true,
