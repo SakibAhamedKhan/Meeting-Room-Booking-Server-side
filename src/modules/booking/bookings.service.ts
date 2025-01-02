@@ -35,14 +35,20 @@ const getAllBooking = async () => {
   return result;
 };
 
-const getAllCustomerBooking = async (payload: Record<string, unknown>, user:any) => {
+const getAllCustomerBooking = async (
+  payload: Record<string, unknown>,
+  user: any
+) => {
   const bookingQuery = new QueryBuilder(
-    Booking.find({user:user._id}).populate("slots").populate("room").populate("user"),payload
+    Booking.find({ user: user._id })
+      .populate("slots")
+      .populate("room")
+      .populate("user"),
+    payload
   ).pagination();
 
   const result = await bookingQuery.modelQuery;
   const meta = await bookingQuery.countTotal();
-
 
   return {
     meta,
@@ -73,15 +79,17 @@ const deleteBooking = async (id: string) => {
   return result;
 };
 
-const giveCustomerBookingPaid = async (id: string, userId:string) => {
-  const result: any = await Booking.updateOne({ _id: id , user: userId}, {isConfirmed: IS_CONFIRME.confirmed});
-
+const giveCustomerBookingPaid = async (id: string, userId: string) => {
+  const result: any = await Booking.updateOne(
+    { _id: id, user: userId },
+    { isConfirmed: IS_CONFIRME.confirmed }
+  );
 
   return result;
 };
 
-const giveCustomerBookingCancel = async (id: string) => {
-  const result: any = await Booking.deleteOne({ _id: id });
+const giveCustomerBookingCancel = async (id: string, userId: string) => {
+  const result: any = await Booking.deleteOne({ _id: id, user: userId });
   return result;
 };
 

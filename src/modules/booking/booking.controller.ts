@@ -106,7 +106,8 @@ const giveCustomerBookingPaid = catchAsync(
 const giveCustomerBookingCancel = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    const result = await BookingService.giveCustomerBookingCancel(id);
+    const user = await getUser(req)
+    const result = await BookingService.giveCustomerBookingCancel(id, user._id);
 
     res.status(200).json({
       success: true,
