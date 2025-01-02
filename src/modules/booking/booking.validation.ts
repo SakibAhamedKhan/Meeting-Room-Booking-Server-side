@@ -17,6 +17,7 @@ const bookingZodSchema = z.object({
         "isConfirmed must be either 'unconfirmed' or 'confirmed' or 'cancel",
     }
   ).optional(),
+  isCompleted: z.boolean().default(false).optional(),
   isDeleted: z.boolean().default(false).optional(),
 });
 

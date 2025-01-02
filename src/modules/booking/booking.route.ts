@@ -14,8 +14,24 @@ router.post(
   BookingController.createBooking
 );
 
+router.get("/customer",
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+  BookingController.getAllCustomerBooking);
+
+router.patch("/customer/paid/:id",
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+  BookingController.giveCustomerBookingPaid);
+
+router.delete("/customer/cancel/:id",
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+  BookingController.giveCustomerBookingCancel);
+
+// router.get("/partner",
+//   auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+//   BookingController.getAllPartnerBooking);
+
 router.get("/",
-  auth(USER_ROLE.ADMIN),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
   BookingController.getAllBooking);
 
 router.get("/my-bookings",

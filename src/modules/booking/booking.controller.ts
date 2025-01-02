@@ -32,6 +32,20 @@ const getAllBooking = catchAsync(
   }
 );
 
+const getAllCustomerBooking = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    const result = await BookingService.getAllCustomerBooking(req.query, user);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "All bookings retrieved successfully",
+      data: result,
+    });
+  }
+);
+
 const getMyBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user =await getUser(req);
@@ -75,10 +89,41 @@ const deleteBooking = catchAsync(
   }
 );
 
+const giveCustomerBookingPaid = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {id} = req.params;
+    const user = await getUser(req);
+    const result = await BookingService.giveCustomerBookingPaid(id, user._id);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Booking Paid successfully",
+      data: result,
+    });
+  }
+);
+const giveCustomerBookingCancel = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {id} = req.params;
+    const result = await BookingService.giveCustomerBookingCancel(id);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Booking canceled successfully",
+      data: result,
+    });
+  }
+);
+
 export const BookingController = {
   createBooking,
   getAllBooking,
   getMyBooking,
   updateBooking,
   deleteBooking,
+  getAllCustomerBooking,
+  giveCustomerBookingPaid,
+  giveCustomerBookingCancel,
 };

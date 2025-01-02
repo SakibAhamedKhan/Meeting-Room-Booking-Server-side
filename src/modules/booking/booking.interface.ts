@@ -8,5 +8,7 @@ export type TBookingSchema = {
   date: Date;
   totalAmount: number;
   isConfirmed: keyof typeof IS_CONFIRME;
+  isCompleted: boolean;
   isDeleted: boolean;
+  createdAt?: Date;
 };

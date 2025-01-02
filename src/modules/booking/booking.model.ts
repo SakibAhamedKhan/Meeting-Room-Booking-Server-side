@@ -31,9 +31,17 @@ const bookingSchema = new Schema<TBookingSchema>({
     enum: Object.keys(IS_CONFIRME),
     default: IS_CONFIRME.unconfirmed,
   },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
   isDeleted: {
     type: Boolean,
     default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
