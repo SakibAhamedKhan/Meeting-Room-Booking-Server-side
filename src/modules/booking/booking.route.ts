@@ -22,6 +22,10 @@ router.get("/partner",
   auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
   BookingController.getAllPartnerBooking);
 
+router.patch("/partner/complete/:id",
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  BookingController.givePartnerBookingEeventComplete);
+
 router.patch("/customer/paid/:id",
   auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   BookingController.giveCustomerBookingPaid);

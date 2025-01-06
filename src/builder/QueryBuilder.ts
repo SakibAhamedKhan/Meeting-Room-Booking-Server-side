@@ -4,7 +4,7 @@ export class QueryBuilder<T> {
   public query: Record<string, unknown>;
   public modelQuery: Query<T[], T>;
 
-  constructor(modelQuery: Query<T[], T>, query: Record<string, unknown>) {
+  constructor(modelQuery:any, query: Record<string, unknown>) {
     this.query = query;
     this.modelQuery = modelQuery;
   }

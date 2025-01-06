@@ -60,13 +60,16 @@ const getAllPartnerBooking = async (
   payload: Record<string, unknown>,
   user: any
 ) => {
-  console.log(user._id);
+  console.log(user);
   const bookingQuery = new QueryBuilder(
-    Booking.find().populate({
-      path: "room", // Path to the 'room' field in the Booking model
-      match: { owner: user._id }, // Only populate rooms where 'owner' matches
-      // select: '_id ownerid'  // Optional: Select only necessary fields from the Room model
-    }),
+    Booking.find()
+      .populate({
+        path: "room", // Path to the 'room' field in the Booking model
+        match: { owner: user._id }, // Only populate rooms where 'owner' matches
+        // select: '_id ownerid'  // Optional: Select only necessary fields from the Room model
+      })
+      .populate("slots")
+      .populate("user"),
     payload
   ).pagination();
 
@@ -119,6 +122,15 @@ const giveCustomerBookingCancel = async (id: string, userId: string) => {
   return result;
 };
 
+const givePartnerBookingEeventComplete = async (id: string, userId: string) => {
+  console.log(id, userId);
+  const result: any = await Booking.updateOne(
+    { _id: id, user: userId },
+    { isCompleted: true }
+  );
+  return result;
+};
+
 export const BookingService = {
   createBooking,
   getAllBooking,
@@ -129,4 +141,5 @@ export const BookingService = {
   giveCustomerBookingPaid,
   giveCustomerBookingCancel,
   getAllPartnerBooking,
+  givePartnerBookingEeventComplete,
 };

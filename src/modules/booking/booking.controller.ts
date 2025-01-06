@@ -130,6 +130,23 @@ const giveCustomerBookingCancel = catchAsync(
       data: result,
     });
   }
+  
+);
+
+
+const givePartnerBookingEeventComplete = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {id} = req.params;
+    const user = await getUser(req);
+    const result = await BookingService.givePartnerBookingEeventComplete(id, user._id);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Event completed successfully",
+      data: result,
+    });
+  }
 );
 
 export const BookingController = {
@@ -142,4 +159,5 @@ export const BookingController = {
   giveCustomerBookingPaid,
   giveCustomerBookingCancel,
   getAllPartnerBooking,
+  givePartnerBookingEeventComplete,
 };
