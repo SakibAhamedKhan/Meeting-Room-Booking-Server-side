@@ -40,7 +40,21 @@ const getAllCustomerBooking = catchAsync(
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: "All bookings retrieved successfully",
+      message: "All bookings retrieved successfully for Customer",
+      data: result,
+    });
+  }
+);
+
+const getAllPartnerBooking = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    const result = await BookingService.getAllPartnerBooking(req.query, user);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "All bookings retrieved successfully for Partner",
       data: result,
     });
   }
@@ -127,4 +141,5 @@ export const BookingController = {
   getAllCustomerBooking,
   giveCustomerBookingPaid,
   giveCustomerBookingCancel,
+  getAllPartnerBooking,
 };

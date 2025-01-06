@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { SlotService } from "../slot/slot.service";
 import { TBookingSchema } from "./booking.interface";
 import { Booking } from "./booking.model";
@@ -56,6 +56,32 @@ const getAllCustomerBooking = async (
   };
 };
 
+const getAllPartnerBooking = async (
+  payload: Record<string, unknown>,
+  user: any
+) => {
+  console.log(user._id);
+  const bookingQuery = new QueryBuilder(
+    Booking.find().populate({
+      path: "room", // Path to the 'room' field in the Booking model
+      match: { owner: user._id }, // Only populate rooms where 'owner' matches
+      // select: '_id ownerid'  // Optional: Select only necessary fields from the Room model
+    }),
+    payload
+  ).pagination();
+
+  const tempResult = await bookingQuery.modelQuery;
+
+  const result = tempResult.filter((booking: any) => booking.room !== null);
+
+  const meta = await bookingQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
+};
+
 const getMyBooking = async (id: ObjectId) => {
   const result = await Booking.find({ user: id })
     .populate("slots")
@@ -102,4 +128,5 @@ export const BookingService = {
   getAllCustomerBooking,
   giveCustomerBookingPaid,
   giveCustomerBookingCancel,
+  getAllPartnerBooking,
 };

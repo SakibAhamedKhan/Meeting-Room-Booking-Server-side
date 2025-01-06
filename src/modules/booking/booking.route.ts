@@ -15,11 +15,15 @@ router.post(
 );
 
 router.get("/customer",
-  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   BookingController.getAllCustomerBooking);
 
-router.patch("/customer/paid/:id",
+router.get("/partner",
   auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER, USER_ROLE.PARTNER),
+  BookingController.getAllPartnerBooking);
+
+router.patch("/customer/paid/:id",
+  auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   BookingController.giveCustomerBookingPaid);
 
 router.delete("/customer/cancel/:id",
