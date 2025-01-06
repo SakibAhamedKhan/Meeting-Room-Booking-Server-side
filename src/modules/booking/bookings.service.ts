@@ -6,6 +6,8 @@ import { RoomService } from "../room/room.service";
 import { getUser } from "../../utils/getUser";
 import { QueryBuilder } from "../../builder/QueryBuilder";
 import { IS_CONFIRME } from "./booking.constant";
+import { Room } from "../room/room.model";
+import AppError from "../../errors/AppError";
 
 const createBooking = async (payload: TBookingSchema, user: any) => {
   const slotsArray = payload.slots as ObjectId[];
@@ -123,9 +125,14 @@ const giveCustomerBookingCancel = async (id: string, userId: string) => {
 };
 
 const givePartnerBookingEeventComplete = async (id: string, userId: string) => {
-  console.log(id, userId);
+  const event: any = await Booking.findOne({ _id: id }).lean();
+  const room = await Room.findOne({ _id: event.room, owner: userId });
+  if (!room) {
+    throw new AppError(401, "UnAuthorized");
+  }
+
   const result: any = await Booking.updateOne(
-    { _id: id, user: userId },
+    { _id: id },
     { isCompleted: true }
   );
   return result;
