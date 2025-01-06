@@ -82,8 +82,16 @@ const refreshToken = async (token: string) => {
   };
 };
 
+const geIndivisiualtUser = async (id: string) => {
+  const result = await User.findOne({_id:id})
+  return {
+    result,
+  };
+};
+
 export const AuthService = {
   signup,
   login,
   refreshToken,
+  geIndivisiualtUser,
 };

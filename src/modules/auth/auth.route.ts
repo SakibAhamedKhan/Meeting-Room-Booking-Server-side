@@ -28,6 +28,8 @@ router.get(
   AuthController.refreshToken,
 );
 
+router.get('/get-user',AuthController.geIndivisiualtUser)
+
 
 
 export const AuthRoutes = router;

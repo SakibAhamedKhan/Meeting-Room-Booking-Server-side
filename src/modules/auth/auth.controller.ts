@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { USER_ROLE } from "../user/user.constant";
 import { AuthService } from "./auth.service";
 import config from "../../config";
+import { getUser } from "../../utils/getUser";
 
 const signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -53,8 +54,23 @@ const refreshToken = catchAsync(
   }
 );
 
+const geIndivisiualtUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user:any = await getUser(req);
+    console.log(user)
+    const result = await AuthService.geIndivisiualtUser(user?._id);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: 'User information retrieved successfully!',
+      data: result,
+    });
+  }
+);
+
 export const AuthController = {
   signup,
   login,
   refreshToken,
+  geIndivisiualtUser,
 };
