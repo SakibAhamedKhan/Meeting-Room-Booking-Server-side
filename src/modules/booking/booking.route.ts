@@ -26,6 +26,10 @@ router.patch("/partner/complete/:id",
   auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
   BookingController.givePartnerBookingEeventComplete);
 
+router.get("/partner/get-linechart",
+  auth(USER_ROLE.ADMIN, USER_ROLE.PARTNER),
+  BookingController.getPartnerBookingLinechartData);
+
 router.patch("/customer/paid/:id",
   auth(USER_ROLE.ADMIN, USER_ROLE.CUSTOMER),
   BookingController.giveCustomerBookingPaid);

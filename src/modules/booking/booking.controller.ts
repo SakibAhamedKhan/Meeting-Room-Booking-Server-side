@@ -149,6 +149,20 @@ const givePartnerBookingEeventComplete = catchAsync(
   }
 );
 
+const getPartnerBookingLinechartData = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await getUser(req);
+    const result = await BookingService.getPartnerBookingLinechartData(user._id, Number(req.query.numberMonth));
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Partner Booking Linechart Data Retrive successfully", 
+      data: result.reverse(), 
+    });
+  }
+);
+
 export const BookingController = {
   createBooking,
   getAllBooking,
@@ -160,4 +174,5 @@ export const BookingController = {
   giveCustomerBookingCancel,
   getAllPartnerBooking,
   givePartnerBookingEeventComplete,
+  getPartnerBookingLinechartData,
 };

@@ -8,6 +8,7 @@ import { QueryBuilder } from "../../builder/QueryBuilder";
 import { IS_CONFIRME } from "./booking.constant";
 import { Room } from "../room/room.model";
 import AppError from "../../errors/AppError";
+import { getLastMonthDataForBooking } from "../../utils/getLastMonthDataForBooking";
 
 const createBooking = async (payload: TBookingSchema, user: any) => {
   const slotsArray = payload.slots as ObjectId[];
@@ -138,6 +139,22 @@ const givePartnerBookingEeventComplete = async (id: string, userId: string) => {
   return result;
 };
 
+const getPartnerBookingLinechartData = async (userId: string, months:Number) => {
+  const allMatchedandNotMatched = await Booking.find({ isCompleted: true })
+    .select("room totalAmount date")
+    .populate({
+      path: "room",
+      match: { owner: userId },
+      select: "_id owner",
+    });
+
+  const partnerBooking = allMatchedandNotMatched.filter(
+    (booking: any) => booking.room !== null
+  );
+
+  return await getLastMonthDataForBooking(partnerBooking, months);
+};
+
 export const BookingService = {
   createBooking,
   getAllBooking,
@@ -149,4 +166,5 @@ export const BookingService = {
   giveCustomerBookingCancel,
   getAllPartnerBooking,
   givePartnerBookingEeventComplete,
+  getPartnerBookingLinechartData,
 };
