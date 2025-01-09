@@ -132,12 +132,13 @@ const givePartnerBookingEeventComplete = async (id: string, userId: string) => {
     throw new AppError(401, "UnAuthorized");
   }
 
-  const result: any = await Booking.updateOne(
+  const result:any = await Booking.updateOne(
     { _id: id },
     { isCompleted: true }
   );
   return result;
-};
+}; 
+
 
 const getPartnerBookingLinechartData = async (userId: string, months:Number) => {
   const allMatchedandNotMatched = await Booking.find({ isCompleted: true })
