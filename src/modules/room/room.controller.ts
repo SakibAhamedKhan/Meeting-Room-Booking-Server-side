@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
-import { RoomService } from "./room.service";
-import { MulterFileFields } from "./room.interface";
 import { getUser } from "../../utils/getUser";
+import { MulterFileFields } from "./room.interface";
+import { RoomService } from "./room.service";
 
 const createRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -80,13 +80,13 @@ const deleteSingleRoom = catchAsync(
 
 const getAllRoom = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await RoomService.getAllRoom();
-
+    const result = await RoomService.getAllRoom(req.query);
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Room retrieved successfully",
-      data: result,
+      meta: result.meta,
+      data: result.result,
     });
   }
 );

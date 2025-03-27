@@ -1,11 +1,11 @@
+import mongoose from "mongoose";
+import { QueryBuilder } from "../../builder/QueryBuilder";
+import AppError from "../../errors/AppError";
+import { sendImagesToCloudinary } from "../../utils/sendImageToCloudinary";
+import { Favourite } from "../favourite/favourite.model";
+import { USER_ROLE } from "../user/user.constant";
 import { TRoomSchema } from "./room.interface";
 import { Room } from "./room.model";
-import mongoose from "mongoose";
-import { sendImagesToCloudinary } from "../../utils/sendImageToCloudinary";
-import AppError from "../../errors/AppError";
-import { USER_ROLE } from "../user/user.constant";
-import { QueryBuilder } from "../../builder/QueryBuilder";
-import { Favourite } from "../favourite/favourite.model";
 
 const createRoom = async (
   payload: TRoomSchema,
@@ -64,14 +64,23 @@ const deleteSingleRoom = async (payload: string) => {
   return result;
 };
 
-const getAllRoom = async () => {
-  const result = await Room.find({
-    isApproved: true,
-    partnerPublish: true,
-    isBanned: false,
-  });
+const getAllRoom = async (payload: Record<string, unknown>) => {
+  console.log(payload);
+  const resultQuery = new QueryBuilder(
+    Room.find({
+      isApproved: true,
+      partnerPublish: true,
+      isBanned: false,
+    }), payload
+  ).pagination();
 
-  return result;
+  const result = await resultQuery.modelQuery;
+  const meta = await resultQuery.countTotal();
+
+  return {
+    result,
+    meta,
+  };
 };
 
 const getAllRoomOperation = async (
