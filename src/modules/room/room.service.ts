@@ -65,13 +65,29 @@ const deleteSingleRoom = async (payload: string) => {
 };
 
 const getAllRoom = async (payload: Record<string, unknown>) => {
-  console.log(payload);
-  const resultQuery = new QueryBuilder(
-    Room.find({
+  let rooms;
+  if (payload.sort === "0") {
+    rooms = Room.find({
       isApproved: true,
       partnerPublish: true,
       isBanned: false,
-    }), payload
+    });
+  } else if (payload.sort === "1") {
+    rooms = Room.find({
+      isApproved: true,
+      partnerPublish: true,
+      isBanned: false,
+    }).sort([["pricePerSlot", "asc"]]);
+  } else if (payload.sort === "2") {
+    rooms = Room.find({
+      isApproved: true,
+      partnerPublish: true,
+      isBanned: false,
+    }).sort([["pricePerSlot", "desc"]]);
+  }
+  const resultQuery = new QueryBuilder(
+    rooms,
+    payload
   ).pagination();
 
   const result = await resultQuery.modelQuery;
@@ -164,15 +180,15 @@ const unPublishRoom = async (user: any, id: string) => {
   return result;
 };
 
-const haveSlotActivate = async(id:string) => {
-  const result = await Room.updateOne({_id:id}, {haveSlot:true})
+const haveSlotActivate = async (id: string) => {
+  const result = await Room.updateOne({ _id: id }, { haveSlot: true });
   return result;
-}
+};
 
-const haveSlotUnActivate = async(id:string) => {
-  const result = await Room.updateOne({_id:id}, {haveSlot:false})
+const haveSlotUnActivate = async (id: string) => {
+  const result = await Room.updateOne({ _id: id }, { haveSlot: false });
   return result;
-}
+};
 
 export const RoomService = {
   createRoom,
@@ -189,5 +205,4 @@ export const RoomService = {
   unPublishRoom,
   haveSlotActivate,
   haveSlotUnActivate,
-
 };
