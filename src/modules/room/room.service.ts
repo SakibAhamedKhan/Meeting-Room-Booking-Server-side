@@ -66,13 +66,7 @@ const deleteSingleRoom = async (payload: string) => {
 
 const getAllRoom = async (payload: Record<string, unknown>) => {
   let rooms;
-  if (payload.sort === "0") {
-    rooms = Room.find({
-      isApproved: true,
-      partnerPublish: true,
-      isBanned: false,
-    });
-  } else if (payload.sort === "1") {
+  if (payload.sort === "1") {
     rooms = Room.find({
       isApproved: true,
       partnerPublish: true,
@@ -84,11 +78,34 @@ const getAllRoom = async (payload: Record<string, unknown>) => {
       partnerPublish: true,
       isBanned: false,
     }).sort([["pricePerSlot", "desc"]]);
+  } else {
+    rooms = Room.find({
+      isApproved: true,
+      partnerPublish: true,
+      isBanned: false,
+    });
   }
-  const resultQuery = new QueryBuilder(
-    rooms,
-    payload
-  ).pagination();
+
+  if (payload.capacity) {
+    const capa = parseInt(payload.capacity as string);
+    rooms = rooms.find({ capacity: { $lte: capa } });
+  }
+
+  if (payload.price) {
+    const priceStr = payload.price as string; // Example price string
+    const price: RegExpMatchArray | null = priceStr.match(/(\d+)-(\d+)/);
+
+    if (price) {
+      const priceLow: number = parseInt(price[1]);
+      const priceHigh: number = parseInt(price[2]);
+      rooms = rooms.find({
+        pricePerSlot: { $gte: priceLow, $lte: priceHigh },
+      });
+
+    }
+  }
+
+  const resultQuery = new QueryBuilder(rooms, payload).pagination();
 
   const result = await resultQuery.modelQuery;
   const meta = await resultQuery.countTotal();
